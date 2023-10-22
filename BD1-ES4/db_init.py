@@ -26,7 +26,10 @@ data_prestito = [
     ('G7', 7, '2023-09-05', '2023-09-20'),
     ('H8', 8, '2023-10-02', '2023-10-15'),
     ('I9', 9, '2023-11-10', '2023-11-25'),
-    ('J10', 10, '2023-12-15', '2023-12-30')
+    ('J10', 10, '2023-12-15', '2023-12-30'),
+    ('J10', 5, '2023-12-15', '2023-12-30'),
+    ('K11', 1, '2024-01-05', '2023-09-20'),
+    ('L12', 2, '2024-02-10', '2023-09-20')
 ]
 
 data_copia = [
@@ -68,5 +71,18 @@ cur.executemany("INSERT INTO UTENTE VALUES(?, ?, ?, ?, ?)", data_utente)
 cur.executemany("INSERT INTO PRESTITO VALUES(?, ?, ?, ?)", data_prestito)
 cur.executemany("INSERT INTO COPIA VALUES(?, ?, ?, ?)", data_copia)
 cur.executemany("INSERT INTO DATILIBRO VALUES(?, ?, ?, ?, ?, ?)", data_libro)
+
+for i in range(1, 101):
+    isbn = f'978-{str(i).zfill(10)}'
+    titolo = f'Libro Giallo {i}'
+    anno_pub = i+1920
+    casa_ed = 'CasaEdizioneUnica'
+    primo_aut = f'AutoreGiallo{i}'
+    genere = 'Giallo'
+
+    cur.execute('''
+        INSERT INTO DATILIBRO (ISBN, Titolo, AnnoPub, CasaEd, PrimoAut, Genere)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (isbn, titolo, anno_pub, casa_ed, primo_aut, genere))
 
 con.commit()
